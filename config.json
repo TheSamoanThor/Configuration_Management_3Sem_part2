@@ -1,0 +1,8 @@
+{
+    "package_name": "example-package",
+    "repo_url_or_path": "https://packages.ubuntu.com",
+    "test_repo_mode": false,
+    "package_version": "1.0.0",
+    "max_depth": 3,
+    "filter_substring": "test"
+}
