@@ -1,4 +1,4 @@
-# Configuration_Management_3Sem_part2
+# Configuration_Management_3Sem
 
 <hr>
 
@@ -82,26 +82,48 @@
 
 <p>Для запуска программы выполните команду:</p>
 
+<pre><code>python dependency_visualizer.py config.json</code></pre>
 
+<p>Где config.json - файл с конфигурацией в формате JSON.</p>
 
+<p>Пример содержимого config.json:</p>
 
-
-
-
-
-<hr>
-
-<h2>Brief Description</h2>
-
-<p>This project is a dependency graph visualization tool for a package manager. At this stage, basic functionality for working with configuration files has been implemented.</p>
-
-<p>The program reads settings from a JSON file, checks their correctness, and displays all parameters in a convenient format. This is the first stage of developing a full-fledged package dependency analysis tool.</p>
-
-<p>The program requires a JSON configuration file containing all required parameters. The program automatically checks the file's existence, format, and the correctness of all parameters.</p>
+<pre><code>{
+    "package_name": "example-package",
+    "repo_url_or_path": "https://packages.ubuntu.com/",
+    "test_repo_mode": false,
+    "package_version": "1.0.0",
+    "max_depth": 3,
+    "filter_substring": "test"
+}</code></pre>
 
 <hr>
 
-<h2>DependencyVisualizer Class Methods</h2>
+<h2>Обработка ошибок</h2>
+
+<p>Программа обрабатывает следующие типы ошибок:</p>
+
+<ul>
+<li>Отсутствие конфигурационного файла</li>
+<li>Некорректный формат JSON</li>
+<li>Отсутствие обязательных параметров</li>
+<li>Некорректные типы данных параметров</li>
+<li>Другие неожиданные ошибки</li>
+</ul>
+
+<hr>
+
+<h2>Short description</h2>
+
+<p>This project is a dependency graph visualization tool for package managers. The current stage implements basic functionality for working with configuration files.</p>
+
+<p>The program reads settings from a JSON file, checks their correctness and outputs all parameters in a convenient format. This is the first stage of developing a full-fledged package dependency analysis tool.</p>
+
+<p>The program requires a configuration file in JSON format containing all required parameters. The program independently checks for the presence of the file, its format and the correctness of all parameters.</p>
+
+<hr>
+
+<h2>Methods of the DependencyVisualizer class</h2>
 
 <ol>
 <li>__init__</li>
@@ -115,27 +137,27 @@
 
 <h3>__init__</h3>
 
-<p>Class constructor. Initializes an empty configuration dictionary and specifies a list of required parameters.</p>
+<p>Class constructor, initializes an empty dictionary for configuration and sets a list of required parameters.</p>
 
 <h3>load_config</h3>
 
-<p>Loads a configuration from a JSON file. Validates the file's existence and valid JSON format.</p>
+<p>Loads configuration from a JSON file. Checks for the existence of the file and the correctness of the JSON format.</p>
 
 <h3>validate_config</h3>
 
-<p>Verifies the presence of all required parameters in the configuration and the correct data types.</p>
+<p>Checks for the presence of all required parameters in the configuration and the correctness of their data types.</p>
 
 <h3>print_config</h3>
 
-<p>Prints all configuration parameters in key:value format with formatting.</p>
+<p>Outputs all configuration parameters in "key: value" format with formatting.</p>
 
 <h3>run</h3>
 
-<p>The main method for executing the step. Coordinates loading, validation, and output of the configuration, and handles possible errors.</p>
+<p>The main method of the stage execution. Coordinates the loading, validation and output of configuration, and also handles possible errors.</p>
 
 <hr>
 
-<h2>Additional Classes and Functions</h2>
+<h2>Additional classes and functions</h2>
 
 <ol>
 <li>ConfigError</li>
@@ -146,18 +168,18 @@
 
 <h3>ConfigError</h3>
 
-<p>Custom exception class for handling configuration errors. Used to generate user-friendly error messages.</p>
+<p>A custom exception class for handling configuration errors. Used to generate clear error messages.</p>
 
 <h3>main</h3>
 
-<p>The entry point to the application. Processes command-line arguments, creates a DependencyVisualizer instance, and starts the main process.</p>
+<p>The entry point to the application. Handles command line arguments, creates an instance of DependencyVisualizer and starts the main process.</p>
 
 <hr>
 
-<h2>Required Configuration Parameters</h2>
+<h2>Required configuration parameters</h2>
 
 <ul>
-<li>package_name - name of the package to be analyzed (string)</li>
+<li>package_name - name of the analyzed package (string)</li>
 <li>repo_url_or_path - repository URL or path to the test repository file (string)</li>
 <li>test_repo_mode - test repository mode (boolean)</li>
 <li>package_version - package version (string)</li>
@@ -169,4 +191,33 @@
 
 <h2>Usage</h2>
 
-<p>To run the program, run the following command:</p>
+<p>To run the program, execute the command:</p>
+
+<pre><code>python dependency_visualizer.py config.json</code></pre>
+
+<p>Where config.json is a configuration file in JSON format.</p>
+
+<p>Example of config.json content:</p>
+
+<pre><code>{
+    "package_name": "example-package",
+    "repo_url_or_path": "https://packages.ubuntu.com/",
+    "test_repo_mode": false,
+    "package_version": "1.0.0",
+    "max_depth": 3,
+    "filter_substring": "test"
+}</code></pre>
+
+<hr>
+
+<h2>Error handling</h2>
+
+<p>The program handles the following types of errors:</p>
+
+<ul>
+<li>Missing configuration file</li>
+<li>Invalid JSON format</li>
+<li>Missing required parameters</li>
+<li>Incorrect parameter data types</li>
+<li>Other unexpected errors</li>
+</ul>
