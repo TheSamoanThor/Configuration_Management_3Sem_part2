@@ -1,14 +1,12 @@
-# Configuration_Management_3Sem
+# Dependency Visualizer - .NET NuGet Package Analyzer
 
 <hr>
 
 <h2>Краткое описание</h2>
 
-<p>Данный проект представляет собой инструмент визуализации графа зависимостей для менеджера пакетов. На текущем этапе реализована базовая функциональность для работы с конфигурационными файлами.</p>
+<p>Данный проект представляет собой инструмент визуализации графа зависимостей для менеджера пакетов .NET (NuGet). На текущем этапе реализована функциональность для работы с конфигурационными файлами и получения информации о прямых зависимостях пакетов из NuGet репозитория.</p>
 
-<p>Программа читает настройки из JSON-файла, проверяет их корректность и выводит все параметры в удобном формате. Это первый этап разработки полноценного инструмента анализа зависимостей пакетов.</p>
-
-<p>Для работы программы необходим конфигурационный файл в формате JSON, содержащий все обязательные параметры. Программа самостоятельно проверяет наличие файла, его формат и корректность всех параметров.</p>
+<p>Программа читает настройки из JSON-файла, проверяет их корректность, выводит все параметры и получает зависимости указанного пакета через NuGet API. Это второй этап разработки полноценного инструмента анализа зависимостей пакетов.</p>
 
 <hr>
 
@@ -19,6 +17,7 @@
 <li>load_config</li>
 <li>validate_config</li>
 <li>print_config</li>
+<li>fetch_nuget_dependencies</li>
 <li>run</li>
 </ol>
 
@@ -40,9 +39,13 @@
 
 <p>Выводит все параметры конфигурации в формате "ключ: значение" с форматированием.</p>
 
+<h3>fetch_nuget_dependencies</h3>
+
+<p>Получает прямые зависимости .NET пакета из NuGet репозитория. Формирует URL для доступа к .nuspec файлу, загружает и парсит XML для извлечения информации о зависимостях.</p>
+
 <h3>run</h3>
 
-<p>Основной метод выполнения этапа. Координирует загрузку, валидацию и вывод конфигурации, а также обрабатывает возможные ошибки.</p>
+<p>Основной метод выполнения этапа. Координирует загрузку, валидацию конфигурации, получение зависимостей и обработку ошибок.</p>
 
 <hr>
 
@@ -82,20 +85,38 @@
 
 <p>Для запуска программы выполните команду:</p>
 
-<pre><code>python dependency_visualizer.py config.json</code></pre>
+<pre><code>python main.py config.json</code></pre>
 
 <p>Где config.json - файл с конфигурацией в формате JSON.</p>
 
 <p>Пример содержимого config.json:</p>
 
 <pre><code>{
-    "package_name": "example-package",
-    "repo_url_or_path": "https://packages.ubuntu.com/",
+    "package_name": "Newtonsoft.Json",
+    "repo_url_or_path": "https://api.nuget.org/v3-flatcontainer",
     "test_repo_mode": false,
-    "package_version": "1.0.0",
+    "package_version": "13.0.3",
     "max_depth": 3,
-    "filter_substring": "test"
+    "filter_substring": ""
 }</code></pre>
+
+<h3>Примеры вывода:</h3>
+
+<pre><code>=== Параметры конфигурации ===
+package_name: Newtonsoft.Json
+repo_url_or_path: https://api.nuget.org/v3-flatcontainer
+test_repo_mode: false
+package_version: 13.0.3
+max_depth: 3
+filter_substring: 
+==============================
+
+Загрузка зависимостей для Newtonsoft.Json 13.0.3
+URL: https://api.nuget.org/v3-flatcontainer/Newtonsoft.Json/13.0.3/Newtonsoft.Json.nuspec
+
+=== Прямые зависимости ===
+  - (зависимости не найдены или пакет не имеет зависимостей)
+==========================</code></pre>
 
 <hr>
 
@@ -108,18 +129,37 @@
 <li>Некорректный формат JSON</li>
 <li>Отсутствие обязательных параметров</li>
 <li>Некорректные типы данных параметров</li>
+<li>Ошибки сети при загрузке зависимостей</li>
+<li>Ошибки парсинга XML</li>
 <li>Другие неожиданные ошибки</li>
+</ul>
+
+<hr>
+
+<h2>Тестирование</h2>
+
+<p>Для тестирования используйте различные конфигурационные файлы:</p>
+
+<pre><code>python main.py config_ef.json
+python main.py config_automapper.json
+python main.py config_nonexistent.json</code></pre>
+
+<p>Примеры конфигурационных файлов для тестирования различных сценариев:</p>
+
+<ul>
+<li>config_ef.json - Microsoft.EntityFrameworkCore (сложные зависимости)</li>
+<li>config_automapper.json - AutoMapper (умеренные зависимости)</li>
+<li>config_newtonsoft.json - Newtonsoft.Json (минимальные зависимости)</li>
+<li>config_nonexistent.json - Несуществующий пакет (проверка ошибок)</li>
 </ul>
 
 <hr>
 
 <h2>Short description</h2>
 
-<p>This project is a dependency graph visualization tool for package managers. The current stage implements basic functionality for working with configuration files.</p>
+<p>This project is a dependency graph visualization tool for .NET NuGet package manager. The current stage implements functionality for working with configuration files and retrieving direct dependency information from NuGet repository.</p>
 
-<p>The program reads settings from a JSON file, checks their correctness and outputs all parameters in a convenient format. This is the first stage of developing a full-fledged package dependency analysis tool.</p>
-
-<p>The program requires a configuration file in JSON format containing all required parameters. The program independently checks for the presence of the file, its format and the correctness of all parameters.</p>
+<p>The program reads settings from a JSON file, checks their correctness, outputs all parameters and retrieves dependencies of the specified package through NuGet API. This is the second stage of developing a full-fledged package dependency analysis tool.</p>
 
 <hr>
 
@@ -130,6 +170,7 @@
 <li>load_config</li>
 <li>validate_config</li>
 <li>print_config</li>
+<li>fetch_nuget_dependencies</li>
 <li>run</li>
 </ol>
 
@@ -151,9 +192,13 @@
 
 <p>Outputs all configuration parameters in "key: value" format with formatting.</p>
 
+<h3>fetch_nuget_dependencies</h3>
+
+<p>Retrieves direct dependencies of .NET package from NuGet repository. Forms URL to access .nuspec file, downloads and parses XML to extract dependency information.</p>
+
 <h3>run</h3>
 
-<p>The main method of the stage execution. Coordinates the loading, validation and output of configuration, and also handles possible errors.</p>
+<p>The main method of the stage execution. Coordinates configuration loading, validation, dependency retrieval and error handling.</p>
 
 <hr>
 
@@ -193,19 +238,19 @@
 
 <p>To run the program, execute the command:</p>
 
-<pre><code>python dependency_visualizer.py config.json</code></pre>
+<pre><code>python main.py config.json</code></pre>
 
 <p>Where config.json is a configuration file in JSON format.</p>
 
 <p>Example of config.json content:</p>
 
 <pre><code>{
-    "package_name": "example-package",
-    "repo_url_or_path": "https://packages.ubuntu.com/",
+    "package_name": "Newtonsoft.Json",
+    "repo_url_or_path": "https://api.nuget.org/v3-flatcontainer",
     "test_repo_mode": false,
-    "package_version": "1.0.0",
+    "package_version": "13.0.3",
     "max_depth": 3,
-    "filter_substring": "test"
+    "filter_substring": ""
 }</code></pre>
 
 <hr>
@@ -219,5 +264,7 @@
 <li>Invalid JSON format</li>
 <li>Missing required parameters</li>
 <li>Incorrect parameter data types</li>
+<li>Network errors when loading dependencies</li>
+<li>XML parsing errors</li>
 <li>Other unexpected errors</li>
 </ul>
