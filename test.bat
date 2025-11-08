@@ -17,8 +17,16 @@ echo [3] - Проверка несуществующего файла конфи
 python main.py not_existing_config.json
 
 echo.
-echo [4] - Нормальный запуск
+echo [4] - Нормальный запуск с Newtonsoft.Json
 python main.py config.json
+
+echo.
+echo [5] - Тестирование с Microsoft.EntityFrameworkCore
+python main.py config_ef.json
+
+echo.
+echo [6] - Тестирование с несуществующим пакетом
+python main.py config_nonexistent.json
 
 echo.
 echo ===============================================
