@@ -1,0 +1,8 @@
+{
+    "package_name": "Microsoft.Extensions.DependencyInjection",
+    "repo_url_or_path": "https://api.nuget.org/v3-flatcontainer",
+    "test_repo_mode": false,
+    "package_version": "7.0.0",
+    "max_depth": 3,
+    "filter_substring": ""
+}
